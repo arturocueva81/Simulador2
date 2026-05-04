@@ -42,5 +42,34 @@ function mostrarSeccion(id) {
   }
 }
 
+function guardarTasa() {
+
+  let input = document.getElementById('tasaInteres');
+  let mensaje = document.getElementById('mensajeTasa');
+
+  if (!input || !mensaje) {
+    console.error('guardarTasa: falta el input o el elemento mensajeTasa en el HTML');
+    return;
+  }
+
+  let valor = Number(input.value);
+
+  if (isNaN(valor)) {
+    mensaje.className = 'rechazado';
+    mensaje.textContent = 'Ingrese un valor numérico para la tasa';
+    return;
+  }
+
+  if (valor >= 10 && valor <= 20) {
+    tasaInteres = valor;
+
+    mensaje.className = 'aprobado';
+    mensaje.textContent = 'Tasa configurada correctamente: ' + valor + '%';
+  } else {
+    mensaje.className = 'rechazado';
+    mensaje.textContent = 'La tasa debe estar entre 10% y 20%';
+  }
+}
+
 mostrarSeccion("parametros");
 
