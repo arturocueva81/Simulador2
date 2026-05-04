@@ -11,3 +11,23 @@
 
   
 //Para recuperar o mostrar información usar los métodos de la clase utilitarios, puede agregar métodos adicionales en utilitarios
+
+// Recupera el componente
+let componente = document.getElementById("parametros");
+// Recupera la lista de clases del componente
+let listaClass = componente.classList;
+// Agrega o elimina la clase
+listaClass.add("activa");
+listaClass.remove("activa");
+
+function ocultarSecciones() {
+  let secciones = document.getElementsByTagName('section');
+  for (let i = 0; i < secciones.length; i++) {
+    let componente = secciones[i];
+    let listaClass = componente.classList;
+    listaClass.remove('activa');
+  }
+}
+
+ocultarSecciones();
+//document.getElementById('parametros').classList.add('activa');
