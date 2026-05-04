@@ -29,5 +29,18 @@ function ocultarSecciones() {
   }
 }
 
-ocultarSecciones();
-//document.getElementById('parametros').classList.add('activa');
+function mostrarSeccion(id) {
+  ocultarSecciones();
+
+  let componente = document.getElementById(id);
+
+  if (componente) {
+    let listaClass = componente.classList;
+    listaClass.add('activa');
+  } else {
+    console.error("mostrarSeccion: no existe ninguna sección con id = " + id);
+  }
+}
+
+mostrarSeccion("parametros");
+
