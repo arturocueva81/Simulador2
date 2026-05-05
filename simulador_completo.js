@@ -101,7 +101,7 @@ if (
   if (isNaN(ingresos)) ingresos = 0;
   if (isNaN(egresos)) egresos = 0;
 
-  var cliente = {
+  let cliente = {
     cedula: cedula,
     nombre: nombre,
     apellido: apellido,
@@ -141,7 +141,7 @@ function pintarClientes() {
               '<td>' + c.ingresos + '</td>' +
               '<td>' + c.egresos + '</td>' +
               '<td>' +
-                '<button type="button" onclick="actualizarCliente(' + i + ')">Actualizar</button>' +
+                '<button type="button" onclick="seleccionarCliente(\'' + c.cedula + '\')">Actualizar</button>' +
               '</td>' +
               '</tr>';
   }
@@ -204,6 +204,107 @@ function guardarCliente() {
   mostrarTextoEnCaja('ingresos', '');
   mostrarTextoEnCaja('egresos', '');
   pintarClientes();
+}
+
+function buscarCliente(cedula) {
+  if (cedula === undefined || cedula === null) return null;
+  let clave = String(cedula).trim();
+
+  for (let i = 0; i < clientes.length; i++) {
+    let c = clientes[i];
+    if (String(c.cedula).trim() === clave) {
+      return c;
+    }
+  }
+
+  return null;
+}
+
+function seleccionarCliente(cedula) {
+  let c = buscarCliente(cedula);
+
+  if (!c) {
+    console.error('seleccionarCliente: no se encontró cliente con cédula = ' + cedula);
+    return;
+  }
+
+  clienteSeleccionado = c;
+
+  mostrarTextoEnCaja('cedula', c.cedula);
+  mostrarTextoEnCaja('nombre', c.nombre);
+  mostrarTextoEnCaja('apellido', c.apellido || '');
+  mostrarTextoEnCaja('ingresos', c.ingresos);
+  mostrarTextoEnCaja('egresos', c.egresos);
+}
+
+
+function guardarCliente() {
+
+  if (
+    !document.getElementById('cedula') ||
+    !document.getElementById('nombre') ||
+    !document.getElementById('apellido') ||
+    !document.getElementById('ingresos') ||
+    !document.getElementById('egresos')
+  ) {
+    console.error('guardarCliente: faltan inputs en el HTML (cedula/nombre/apellido/ingresos/egresos)');
+    return;
+  }
+
+  let cedula = recuperarTexto('cedula').trim();
+  let nombre = recuperarTexto('nombre').trim();
+  let apellido = recuperarTexto('apellido').trim();
+  let ingresos = recuperarFloat('ingresos');
+  let egresos = recuperarFloat('egresos');
+
+  // Validaciones básicas
+  if (!cedula || !nombre) {
+    console.error('guardarCliente: la cédula y el nombre son obligatorios');
+    return;
+  }
+
+  if (isNaN(ingresos)) ingresos = 0;
+  if (isNaN(egresos)) egresos = 0;
+
+  let existente = buscarCliente(cedula);
+
+  if (existente) {
+    // Actualizar campos (NO modificar la cédula)
+    existente.nombre = nombre;
+    existente.apellido = apellido;
+    existente.ingresos = ingresos;
+    existente.egresos = egresos;
+
+    console.log('Cliente actualizado:', existente);
+  } else {
+
+    let cliente = {
+      cedula: cedula,
+      nombre: nombre,
+      apellido: apellido,
+      ingresos: ingresos,
+      egresos: egresos
+    };
+
+    clientes.push(cliente);
+    console.log('Cliente guardado:', cliente);
+  }
+
+  pintarClientes();
+  limpiar();
+
+  clienteSeleccionado = null;
+}
+
+function limpiar() {
+  mostrarTextoEnCaja('cedula', '');
+  mostrarTextoEnCaja('nombre', '');
+  mostrarTextoEnCaja('apellido', '');
+  mostrarTextoEnCaja('ingresos', '');
+  mostrarTextoEnCaja('egresos', '');
+
+  var ced = document.getElementById('cedula');
+  if (ced) ced.focus();
 }
 
 
