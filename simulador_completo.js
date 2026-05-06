@@ -299,5 +299,37 @@ function limpiar() {
   if (ced) ced.focus();
 }
 
+function buscarClienteCredito() {
+  let input = document.getElementById('buscarCedulaCredito');
+  let cont = document.getElementById('datosClienteCredito');
+
+  if (!input || !cont) {
+    console.error('buscarClienteCredito: faltan elementos en el HTML (buscarCedulaCredito o datosClienteCredito)');
+    return;
+  }
+
+  let cedula = (typeof recuperaraTexto === 'function')
+    ? recuperaraTexto('buscarCedulaCredito').trim()
+    : input.value.trim();
+
+  if (!cedula) {
+    cont.innerText = 'Ingrese una cédula para buscar.';
+    return;
+  }
+
+  let cliente = buscarCliente(cedula);
+
+  if (cliente) {
+    cont.innerHTML =
+      '<p><strong>Cédula:</strong> ' + cliente.cedula + '</p>' +
+      '<p><strong>Nombre:</strong> ' + cliente.nombre + '</p>' +
+      '<p><strong>Apellido:</strong> ' + (cliente.apellido || '') + '</p>' +
+      '<p><strong>Ingresos:</strong> ' + cliente.ingresos + '</p>' +
+      '<p><strong>Egresos:</strong> ' + cliente.egresos + '</p>';
+  } else {
+    cont.innerText = 'Cliente no encontrado con cédula: ' + cedula;
+  }
+}
+
 
 //mostrarSeccion("parametros");
