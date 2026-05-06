@@ -75,7 +75,6 @@ function guardarTasa() {
   }
 }
 
-
 function guardarCliente() {
 if (
   !document.getElementById('cedula') ||
@@ -149,12 +148,9 @@ function pintarClientes() {
   tbody.innerHTML = filas;
 }
 
-
 function actualizarCliente(index) {
   console.log('actualizarCliente llamado para el índice:', index, 'cliente:', clientes[index]);
 }
-
-
 
 function guardarCliente() {
 
@@ -229,14 +225,12 @@ function seleccionarCliente(cedula) {
   }
 
   clienteSeleccionado = c;
-
   mostrarTextoEnCaja('cedula', c.cedula);
   mostrarTextoEnCaja('nombre', c.nombre);
   mostrarTextoEnCaja('apellido', c.apellido || '');
   mostrarTextoEnCaja('ingresos', c.ingresos);
   mostrarTextoEnCaja('egresos', c.egresos);
 }
-
 
 function guardarCliente() {
 
@@ -257,7 +251,6 @@ function guardarCliente() {
   let ingresos = recuperarFloat('ingresos');
   let egresos = recuperarFloat('egresos');
 
-  // Validaciones básicas
   if (!cedula || !nombre) {
     console.error('guardarCliente: la cédula y el nombre son obligatorios');
     return;
@@ -269,7 +262,6 @@ function guardarCliente() {
   let existente = buscarCliente(cedula);
 
   if (existente) {
-    // Actualizar campos (NO modificar la cédula)
     existente.nombre = nombre;
     existente.apellido = apellido;
     existente.ingresos = ingresos;
@@ -303,10 +295,9 @@ function limpiar() {
   mostrarTextoEnCaja('ingresos', '');
   mostrarTextoEnCaja('egresos', '');
 
-  var ced = document.getElementById('cedula');
+  let ced = document.getElementById('cedula');
   if (ced) ced.focus();
 }
 
 
 //mostrarSeccion("parametros");
-

@@ -12,8 +12,9 @@
 </header>
 
 <nav>
-  <button>Parámetros</button>
-  <button>Clientes</button>
+  <button type="button" onclick="mostrarSeccion('parametros')">Parámetros</button>
+  <button type="button" onclick="mostrarSeccion('clientes')">Clientes</button>
+  <button type="button" onclick="mostrarSeccion('credito')">Créditos</button>
 </nav>
 
 <section id="parametros" class="activa">
@@ -98,7 +99,30 @@
   </table>
 </section>
 
-  <script src="simulador_completo.js"></script>
+<section id="credito" class="activa">
+  <h2>Solicitar Crédito</h2>
+
+  <input type="text" id="buscarCedulaCredito">
+  <button onclick="buscarClienteCredito()">Buscar cliente</button>
+
+  <div id="datosClienteCredito" class="card"></div>
+
+  <input type="number" id="montoCredito" >
+  <input type="number" id="plazoCredito" >
+
+  <br>
+
+  <button onclick="calcularCredito()">Calcular crédito</button>
+
+  <div id="resultadoCredito"></div>
+
+  <button id="btnSolicitarCredito" onclick="solicitarCredito()" disabled>
+    Solicitar crédito
+  </button>
+</section>
+
   <script src="utilitarios.js"></script>
+  <script src="simulador_completo.js"></script>
+
 </body>
 </html>
