@@ -1,105 +1,291 @@
+:root{
+  /* Paleta inspirada/extraída del Banco del Pacífico */
+  --brand: #0093CE;        /* color primario (logo) - extraído públicamente */
+  --brand-dark: #00608A;   /* versión más oscura para gradientes y hover */
+  --muted: #6c757d;
+  --bg: #055d85;
+  --card-bg: #ffffff;
+  --border: #e6e9ee;
+  --accent: #e9f8ff;      /* acento claro derivado del primario */
+  --accent-strong: #00b7ea;/* acento más vivo para pequeños highlights */
+  --success: #dff2e6;
+  --success-text: #0b6b3a;
+  --danger: #fdecea;
+  --danger-text: #8b1d22;
+  --glass: rgba(0,150,200,0.06);
+  --max-width: 1100px;
+  --radius: 10px;
+  --transition: 0.18s ease;
+  --text-dark: #122033;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
-    }
+/* Base */
+*{ box-sizing: border-box; }
+body {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  color: var(--text-dark);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height: 1.45;
+}
 
-    header {
-      background: #1f3c88;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+/* Page container & header */
+header {
+  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 22px 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(6,96,138,0.12);
+}
+header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.4px;
+}
 
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #e0e0e0;
-      padding: 10px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+/* Navigation */
+nav {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background: var(--accent);
+  flex-wrap:wrap;
+  border-bottom:1px solid var(--border);
+}
 
-    nav button {
-      padding: 10px 15px;
-      border: none;
-      background: #1f3c88;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+nav button {
+  padding: 10px 18px;
+  border: none;
+  background: var(--brand);
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.04);
+  font-weight: 600;
+}
+nav button:hover {
+  transform: translateY(-2px);
+  background: var(--brand-dark);
+  box-shadow: 0 6px 18px rgba(0,96,138,0.12);
+}
+nav button:focus { outline: 3px solid rgba(0,96,138,0.12); }
 
-    nav button:hover {
-      background: #14275c;
-    }
+/* Section layout */
+section {
+  display: none;
+  padding: 24px;
+  max-width: var(--max-width);
+  margin: 22px auto;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+  border: 1px solid var(--border);
+}
+section.activa {
+  display: block;
+}
 
-    section {
-      display: none;
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background: white;
-      margin-top: 20px;
-      border-radius: 8px;
-    }
+/* Form controls */
+.form-row {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+label {
+  font-weight:600;
+  color:var(--muted);
+  margin-right:6px;
+}
 
-    section.activa {
-      display: block;
-    }
+/* Inputs */
+input, select, textarea {
+  padding:10px 12px;
+  margin:4px 0;
+  width: 220px;
+  border: 1px solid #d7dbe0;
+  border-radius: 6px;
+  background: #fff;
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--brand-dark);
+  box-shadow: 0 6px 18px rgba(0,96,138,0.06);
+}
 
-    input, select {
-      padding: 8px;
-      margin: 5px;
-      width: 220px;
-    }
+/* Buttons (global) */
+button {
+  padding: 8px 12px;
+  margin: 5px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background var(--transition), transform var(--transition);
+}
+button.secondary {
+  background: #f6f8fb;
+  color: #243b53;
+  border-color: #e8edf4;
+}
+button.ghost {
+  background: transparent;
+  color: var(--brand);
+  border: 1px solid var(--brand);
+}
 
-    button {
-      padding: 8px 12px;
-      margin: 5px;
-      cursor: pointer;
-    }
+/* Primary action variant (Banco del Pacífico style) */
+button.primary {
+  background: var(--brand);
+  color: #fff;
+  border-color: rgba(0,0,0,0.04);
+}
+button.primary:hover { background: var(--brand-dark); }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
+/* Table styling, responsive */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 6px;
+  margin-top: 12px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  background: white;
+}
+th, td {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+th {
+  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  font-weight:700;
+  position: sticky;
+  top: 0;
+}
+tr:nth-child(even) td { background: #fbfdff; }
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
+/* Cards and small containers */
+.card {
+  background: #f7fafc;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #eef3f8;
+}
 
-    th {
-      background: #1f3c88;
-      color: white;
-    }
+/* Resultado states (Banco del Pacífico look) */
+.aprobado {
+  background: linear-gradient(180deg, #e6f7ed 0%, #e9f9ef 100%);
+  color: var(--success-text);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #c7ecd1;
+  font-weight: 700;
+  display: inline-block;
+}
+.rechazado {
+  background: linear-gradient(180deg, #fff2f2 0%, #fff6f6 100%);
+  color: var(--danger-text);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #f5d1d3;
+  font-weight: 700;
+  display: inline-block;
+}
 
-    .aprobado {
-      background: #d4edda;
-      color: #155724;
-      padding: 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
+/* Small helpers */
+.small {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.highlight {
+  color: var(--brand);
+  font-weight:700;
+}
 
-    .rechazado {
-      background: #f8d7da;
-      color: #721c24;
-      padding: 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
+/* Accessibility and focus states */
+button:focus, input:focus {
+  box-shadow: 0 8px 24px rgba(0,96,138,0.06);
+}
 
-    .card {
-      background: #f1f1f1;
-      padding: 15px;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-  
+/* Responsive rules */
+@media (max-width: 900px) {
+  :root { --max-width: 760px; }
+  header h1 { font-size: 1.35rem; padding-bottom: 4px; }
+  section { padding: 16px; margin: 14px 12px; }
+  nav { padding: 10px; gap:8px; }
+  input, select { width: 100%; max-width: 100%; }
+  .form-row { flex-direction: column; align-items: stretch; }
+  th, td { padding: 10px 8px; }
+  table { min-width: 520px; }
+}
+
+@media (max-width: 520px) {
+  :root { --max-width: 460px; }
+  header h1 { font-size: 1.1rem; }
+  nav { justify-content: center; gap:6px; padding:8px; }
+  nav button { padding: 8px 10px; font-size: 0.95rem; }
+  section { padding: 12px 10px; margin: 10px; border-radius: 8px; }
+  th, td { padding: 8px 6px; font-size: 0.95rem; }
+  input, select { width: 100%; }
+}
+
+/* Utility: centered container for small messages */
+.center {
+  text-align:center;
+  margin-top:10px;
+}
+
+/* ------------------------
+   Animaciones y micro-interacciones
+   ------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes btnPop { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.02); } 100% { transform: translateY(0) scale(1); } }
+@keyframes rowGlow { 0% { background-color: rgba(0,96,138,0.03); } 50% { background-color: rgba(0,96,138,0.06); } 100% { background-color: rgba(0,96,138,0.03); } }
+@keyframes pulseOk { 0% { box-shadow: 0 0 0 0 rgba(11,107,58,0.18); } 70% { box-shadow: 0 0 0 8px rgba(11,107,58,0); } 100% { box-shadow: 0 0 0 0 rgba(11,107,58,0); } }
+@keyframes shake { 0% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } 100% { transform: translateX(0); } }
+
+header { animation: fadeInDown 480ms cubic-bezier(.22,.9,.37,1) both; }
+section.activa { animation: slideInUp 420ms cubic-bezier(.22,.9,.37,1) both; }
+
+nav button, button:not(.ghost):not(.secondary) { will-change: transform, box-shadow; transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease; }
+nav button:hover, button:not(.ghost):not(.secondary):hover { animation: btnPop 260ms ease; }
+
+input:focus, select:focus, textarea:focus, button:focus { transition: box-shadow 220ms ease, border-color 220ms ease; }
+
+table tbody tr:hover td { transform: translateY(-3px); transition: transform 180ms ease, background-color 180ms ease; background-color: rgba(0,96,138,0.03); }
+table tbody tr.nuevo { animation: rowGlow 800ms ease; }
+
+.aprobado { position: relative; animation: pulseOk 1600ms ease; }
+.rechazado { position: relative; animation: shake 380ms cubic-bezier(.36,.07,.19,.97); }
+
+.card { transform-origin: center; transition: transform 260ms ease, box-shadow 260ms ease; }
+.card:target, .card:focus-within { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(16,24,40,0.06); }
+
+@keyframes dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } 100% { content: ''; } }
+button.loading::after { content: ''; display: inline-block; margin-left: 8px; width: 18px; text-align: left; font-weight: 700; animation: dots 900ms steps(3) infinite; }
+
+button.ghost:hover { background: rgba(0,96,138,0.06); transform: translateY(-2px); }
+
+@media (max-width: 420px) {
+  nav button:hover, button:hover { transform: none; animation: none; }
+  table tbody tr:hover td { transform: none; }
+}

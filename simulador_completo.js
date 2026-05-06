@@ -402,7 +402,11 @@ function calcularCredito() {
     RESULTADO: ${aprobado ? 'APROBADO' : 'RECHAZADO'}
   `;
 
+  contResultado.className = aprobado ? 'aprobado' : 'rechazado';
+
   btnSolicitar.disabled = !aprobado;
 }
+
+
 
 //mostrarSeccion("parametros");
