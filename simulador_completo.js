@@ -308,28 +308,101 @@ function buscarClienteCredito() {
     return;
   }
 
+  // Obtener valor (usar utilitarios si existe)
   let cedula = (typeof recuperaraTexto === 'function')
     ? recuperaraTexto('buscarCedulaCredito').trim()
     : input.value.trim();
 
   if (!cedula) {
-    cont.innerText = 'Ingrese una cédula para buscar.';
+    cont.innerHTML = '<p>Ingrese una cédula para buscar.</p>';
     return;
   }
 
   let cliente = buscarCliente(cedula);
 
   if (cliente) {
-    cont.innerHTML =
-      '<p><strong>Cédula:</strong> ' + cliente.cedula + '</p>' +
-      '<p><strong>Nombre:</strong> ' + cliente.nombre + '</p>' +
-      '<p><strong>Apellido:</strong> ' + (cliente.apellido || '') + '</p>' +
-      '<p><strong>Ingresos:</strong> ' + cliente.ingresos + '</p>' +
-      '<p><strong>Egresos:</strong> ' + cliente.egresos + '</p>';
+    // Armar HTML dinámico con template literal (igual al ejemplo)
+    cont.innerHTML = `
+      <h3>Datos del Cliente</h3>
+      <p><strong>Cédula:</strong> ${cliente.cedula}</p>
+      <p><strong>Nombre:</strong> ${cliente.nombre}</p>
+      <p><strong>Apellido:</strong> ${cliente.apellido || ''}</p>
+      <p><strong>Ingresos:</strong> ${cliente.ingresos}</p>
+      <p><strong>Egresos:</strong> ${cliente.egresos}</p>
+    `;
   } else {
-    cont.innerText = 'Cliente no encontrado con cédula: ' + cedula;
+    cont.innerHTML = `<p>Cliente no encontrado con cédula: ${cedula}</p>`;
   }
 }
 
+function calcularCredito() {
+  let inputCed = document.getElementById('buscarCedulaCredito');
+  let inputMonto = document.getElementById('montoCredito');
+  let inputPlazo = document.getElementById('plazoCredito');
+  let contResultado = document.getElementById('resultadoCredito');
+  let btnSolicitar = document.getElementById('btnSolicitarCredito');
+
+  if (!inputCed || !inputMonto || !inputPlazo || !contResultado || !btnSolicitar) {
+    console.error('calcularCredito: faltan elementos en el HTML (buscarCedulaCredito, montoCredito, plazoCredito, resultadoCredito, btnSolicitarCredito)');
+    return;
+  }
+
+  let funcionesNecesarias = ['calcularDisponible','calcularCapacidadPago','calcularInteresSimple','calcularTotalPagar','calcularCuotaMensual','aprobarCredito'];
+  for (let i = 0; i < funcionesNecesarias.length; i++) {
+    if (typeof window[funcionesNecesarias[i]] !== 'function') {
+      console.error('calcularCredito: falta la función required ' + funcionesNecesarias[i] + ' (reutilizar functions.js)');
+      contResultado.innerHTML = '<p>Error: funciones de cálculo no encontradas. Asegure cargar functions.js</p>';
+      return;
+    }
+  }
+
+  let cedula = (clienteSeleccionado && clienteSeleccionado.cedula) ? String(clienteSeleccionado.cedula).trim() : inputCed.value.trim();
+  if (!cedula) {
+    contResultado.innerHTML = '<p>Ingrese o seleccione una cédula antes de calcular.</p>';
+    return;
+  }
+
+  let cliente = buscarCliente(cedula);
+  if (!cliente) {
+    contResultado.innerHTML = '<p>Cliente no encontrado con cédula: ' + cedula + '</p>';
+    return;
+  }
+
+  let monto = Number(inputMonto.value);
+  let plazoAnios = Number(inputPlazo.value);
+
+  if (isNaN(monto) || monto <= 0) {
+    contResultado.innerHTML = '<p>Ingrese un monto válido mayor que 0.</p>';
+    return;
+  }
+  if (isNaN(plazoAnios) || plazoAnios <= 0) {
+    contResultado.innerHTML = '<p>Ingrese un plazo válido (años) mayor que 0.</p>';
+    return;
+  }
+
+  let ingresos = Number(cliente.ingresos) || 0;
+  let egresos = Number(cliente.egresos) || 0;
+  let montoDisponible = calcularDisponible(ingresos, egresos, 0, 0);
+
+  let capacidadPago = calcularCapacidadPago(montoDisponible);
+  let interes = calcularInteresSimple(monto, tasaInteres, plazoAnios);
+  let totalPagar = calcularTotalPagar(monto, interes);
+  let cuotaMensual = calcularCuotaMensual(totalPagar, plazoAnios);
+  let aprobado = aprobarCredito(capacidadPago, cuotaMensual);
+
+  montoCalculado = monto;
+  plazoCalculado = plazoAnios;
+  cuotaCalculada = cuotaMensual;
+  creditoAprobado = aprobado;
+
+  contResultado.innerHTML = `
+    Capacidad de pago: ${Number(capacidadPago).toFixed(2)}<br>
+    Total a pagar: ${Number(totalPagar).toFixed(2)}<br>
+    Cuota mensual: ${Number(cuotaMensual).toFixed(2)}<br>
+    RESULTADO: ${aprobado ? 'APROBADO' : 'RECHAZADO'}
+  `;
+
+  btnSolicitar.disabled = !aprobado;
+}
 
 //mostrarSeccion("parametros");
