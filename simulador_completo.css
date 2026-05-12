@@ -289,3 +289,26 @@ button.ghost:hover { background: rgba(0,96,138,0.06); transform: translateY(-2px
   nav button:hover, button:hover { transform: none; animation: none; }
   table tbody tr:hover td { transform: none; }
 }
+
+#contenedorBienvenida {
+  text-align: center;
+  padding: 20px;
+}
+
+#imagenBienvenida {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  margin-bottom: 16px;
+}
+
+#contenedorBienvenida h2 {
+  font-size: 1.6rem;
+  color: #1a3a5c;
+}
+
+#contenedorBienvenida p {
+  color: #555;
+  font-size: 1rem;
+}

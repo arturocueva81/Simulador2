@@ -18,31 +18,39 @@
   <button type="button" onclick="mostrarSeccion('credito')">Créditos</button>
 </nav>
 
-<section id="parametros" class="activa">
+<!-- SECCIÓN BIENVENIDA -->
+<section id="bienvenida" class="activa">
+  <div id="contenedorBienvenida">
+    <img 
+      src="logo.png" 
+      alt="Sistema Bancario" 
+      id="imagenBienvenida"
+    >
+    <h2>Bienvenido al Sistema de Créditos</h2>
+    <p>Seleccione una opción del menú para comenzar</p>
+  </div>
+</section>
+
+<section id="parametros" class="">
   <h2>Configurar Parámetros</h2>
 
-  <label>Tasa de interés:</label>
-  <input type="number" id="tasaInteres">
-  <span>%</span>
-
-  <br>
-  <label>Tasa de interés:</label>
+  <label for="tasaInteres">Tasa de interés:</label>
   <input type="number" id="tasaInteres" min="10" max="20" value="15">
   <span>%</span>
 
-  <br>
+  <br><br>
   <button type="button" onclick="guardarTasa()">Guardar tasa</button>
-  <p id="mensajeTasa"></p>
-
   <p id="mensajeTasa"></p>
 </section>
 
-<section id="clientes" class="activa">
+<section id="clientes" class="">
   <h2>Registro de Clientes</h2>
 
+  <h3>Datos Personales:</h3>
   <input type="text" id="cedula" placeholder="Cédula">
   <input type="text" id="nombre" placeholder="Nombre">
-  <input type="text" id="apellido" placeholder="Apellido">
+  <input type="text" id="apellido" placeholder="Apellido"><br>
+  <h3>Datos Financieros:</h3>
   <input type="number" id="ingresos" placeholder="Ingresos mensuales">
   <input type="number" id="egresos" placeholder="Egresos mensuales">
 
@@ -63,44 +71,14 @@
       </tr>
     </thead>
     <tbody id="tablaClientes">
-        <tr>
-          <td>1712345678</td>
-          <td>Juan</td>
-          <td>Pérez</td>
-          <td>1200</td>
-          <td>500</td>
-          <td>
-            <button>Actualizar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1723456789</td>
-          <td>María</td>
-          <td>Gómez</td>
-          <td>1500</td>
-          <td>600</td>
-          <td>
-            <button>Actualizar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1734567890</td>
-          <td>Carlos</td>
-          <td>Ramírez</td>
-          <td>900</td>
-          <td>350</td>
-          <td>
-            <button>Actualizar</button>
-            <button>Eliminar</button>
-          </td>
-        </tr>
+   
+      
+        
     </tbody>
   </table>
 </section>
 
-<section id="credito" class="activa">
+<section id="credito" class="">
   <h2>Solicitar Crédito</h2>
 
   Cédula: <input type="text" id="buscarCedulaCredito">
