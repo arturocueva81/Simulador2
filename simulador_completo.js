@@ -1,5 +1,4 @@
-
-  let clientes = [];
+let clientes = [];
   let creditos = [];
 
   let tasaInteres = 15;
@@ -9,7 +8,7 @@
   let plazoCalculado = 0;
   let creditoAprobado = false;
 
-  
+
 //Para recuperar o mostrar información usar los métodos de la clase utilitarios, puede agregar métodos adicionales en utilitarios
 
 // Recupera el componente
@@ -304,14 +303,11 @@ function buscarClienteCredito() {
   let cont = document.getElementById('datosClienteCredito');
 
   if (!input || !cont) {
-    console.error('buscarClienteCredito: faltan elementos en el HTML (buscarCedulaCredito o datosClienteCredito)');
+    console.error('buscarClienteCredito: faltan elementos en el HTML');
     return;
   }
 
-  // Obtener valor (usar utilitarios si existe)
-  let cedula = (typeof recuperaraTexto === 'function')
-    ? recuperaraTexto('buscarCedulaCredito').trim()
-    : input.value.trim();
+  let cedula = input.value.trim();
 
   if (!cedula) {
     cont.innerHTML = '<p>Ingrese una cédula para buscar.</p>';
@@ -321,7 +317,9 @@ function buscarClienteCredito() {
   let cliente = buscarCliente(cedula);
 
   if (cliente) {
-    // Armar HTML dinámico con template literal (igual al ejemplo)
+    // CORRECCIÓN: asignar clienteSeleccionado aquí
+    clienteSeleccionado = cliente;
+
     cont.innerHTML = `
       <h3>Datos del Cliente</h3>
       <p><strong>Cédula:</strong> ${cliente.cedula}</p>
@@ -331,6 +329,7 @@ function buscarClienteCredito() {
       <p><strong>Egresos:</strong> ${cliente.egresos}</p>
     `;
   } else {
+    clienteSeleccionado = null;
     cont.innerHTML = `<p>Cliente no encontrado con cédula: ${cedula}</p>`;
   }
 }
@@ -340,10 +339,10 @@ function calcularCredito() {
   let inputMonto = document.getElementById('montoCredito');
   let inputPlazo = document.getElementById('plazoCredito');
   let contResultado = document.getElementById('resultadoCredito');
-  let btnSolicitar = document.getElementById('btnSolicitarCredito');
+  let btnSolicitar = document.getElementById('btnAsignarCredito');
 
   if (!inputCed || !inputMonto || !inputPlazo || !contResultado || !btnSolicitar) {
-    console.error('calcularCredito: faltan elementos en el HTML (buscarCedulaCredito, montoCredito, plazoCredito, resultadoCredito, btnSolicitarCredito)');
+    console.error('calcularCredito: faltan elementos en el HTML (buscarCedulaCredito, montoCredito, plazoCredito, resultadoCredito, btnAsignarCredito)');
     return;
   }
 
@@ -403,10 +402,114 @@ function calcularCredito() {
   `;
 
   contResultado.className = aprobado ? 'aprobado' : 'rechazado';
-
   btnSolicitar.disabled = !aprobado;
+
+  let btnAsignar = document.getElementById('btnAsignarCredito');
+  if (btnAsignar) {
+    btnAsignar.disabled = !aprobado;
+  }
+
 }
 
+function asignarCredito() {
+  if (!clienteSeleccionado) {
+    console.error('asignarCredito: no hay cliente seleccionado');
+    return;
+  }
 
+  if (!creditoAprobado) {
+    console.error('asignarCredito: el crédito no fue aprobado');
+    return;
+  }
 
-//mostrarSeccion("parametros");
+  let credito = {
+    cedula:   clienteSeleccionado.cedula,
+    nombre:   clienteSeleccionado.nombre,
+    apellido: clienteSeleccionado.apellido,
+    monto:    montoCalculado,
+    tasa:     tasaInteres,
+    plazo:    plazoCalculado,
+    cuota:    cuotaCalculada
+  };
+
+  creditos.push(credito);
+  pintarCreditos(creditos);
+
+  console.log('Crédito asignado y tabla actualizada');
+  console.log('Total créditos registrados:', creditos.length);
+
+  // Deshabilitar botones para evitar doble asignación
+  let btnAsignar = document.getElementById('btnAsignarCredito');
+  let btnSolicitar = document.getElementById('btnSolicitarCredito');
+  if (btnAsignar)   btnAsignar.disabled = true;
+  if (btnSolicitar) btnSolicitar.disabled = true;
+
+  let resultado = document.getElementById('resultadoCredito');
+  if (resultado) {
+    resultado.innerHTML += '<br><strong>✔ Crédito asignado correctamente.</strong>';
+  }
+}
+
+function buscarCreditos(cedula) {
+  let clave = String(cedula).trim();
+  let resultado = [];
+
+  for (let i = 0; i < creditos.length; i++) {
+    if (String(creditos[i].cedula).trim() === clave) {
+      resultado.push(creditos[i]);
+    }
+  }
+
+  return resultado;
+}
+
+function pintarCreditos(listado) {
+  let tbody = document.getElementById('tablaCreditos');
+
+  if (!tbody) {
+    console.error('pintarCreditos: no se encontró tbody con id "tablaCreditos"');
+    return;
+  }
+
+  if (listado.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7">No hay créditos registrados.</td></tr>';
+    return;
+  }
+
+  let filas = '';
+
+  for (let i = 0; i < listado.length; i++) {
+    let c = listado[i];
+    filas += '<tr>' +
+              '<td>' + c.cedula            + '</td>' +
+              '<td>' + c.nombre            + '</td>' +
+              '<td>' + (c.apellido || '')  + '</td>' +
+              '<td>' + c.monto             + '</td>' +
+              '<td>' + c.tasa + '%'        + '</td>' +
+              '<td>' + c.plazo + ' años'   + '</td>' +
+              '<td>' + Number(c.cuota).toFixed(2) + '</td>' +
+              '</tr>';
+  }
+
+  tbody.innerHTML = filas;
+}
+
+function buscarCreditosCliente() {
+  let input = document.getElementById('buscarCedulaListado');
+
+  if (!input) {
+    console.error('buscarCreditosCliente: no se encontró el input con id "buscarCedulaListado"');
+    return;
+  }
+
+  let cedula = input.value.trim();
+
+  if (!cedula) {
+    console.error('buscarCreditosCliente: ingrese una cédula para buscar');
+    pintarCreditos([]);
+    return;
+  }
+
+  let resultado = buscarCreditos(cedula);
+  pintarCreditos(resultado);
+}

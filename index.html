@@ -7,96 +7,121 @@
 </head>
 <body>
 
-<header>
-  <h1>Sistema Básico de Créditos</h1>
-    <link rel="stylesheet" href="simulador_completo.css">
-</header>
+  <header>
+    <h1>Sistema Básico de Créditos</h1>
+      <link rel="stylesheet" href="simulador_completo.css">
+  </header>
 
-<nav>
-  <button type="button" onclick="mostrarSeccion('parametros')">Parámetros</button>
-  <button type="button" onclick="mostrarSeccion('clientes')">Clientes</button>
-  <button type="button" onclick="mostrarSeccion('credito')">Créditos</button>
-</nav>
+  <nav>
+    <button type="button" onclick="mostrarSeccion('parametros')">Parámetros</button>
+    <button type="button" onclick="mostrarSeccion('clientes')">Clientes</button>
+    <button type="button" onclick="mostrarSeccion('credito')">Créditos</button>
+    <button type="button" onclick="mostrarSeccion('listaCreditos')">Créditos Registrados</button>
+  </nav>
 
-<!-- SECCIÓN BIENVENIDA -->
-<section id="bienvenida" class="activa">
-  <div id="contenedorBienvenida">
-    <img 
-      src="logo.png" 
-      alt="Sistema Bancario" 
-      id="imagenBienvenida"
-    >
-    <h2>Bienvenido al Sistema de Créditos</h2>
-    <p>Seleccione una opción del menú para comenzar</p>
-  </div>
-</section>
+  <!-- SECCIÓN BIENVENIDA -->
+  <section id="bienvenida" class="activa">
+    <div id="contenedorBienvenida">
+      <img 
+        src="logo.png" 
+        alt="Sistema Bancario" 
+        id="imagenBienvenida"
+      >
+      <h2>Bienvenido al Sistema de Créditos</h2>
+      <p>Seleccione una opción del menú para comenzar</p>
+    </div>
+  </section>
 
-<section id="parametros" class="">
-  <h2>Configurar Parámetros</h2>
+  <section id="parametros" class="">
+    <h2>Configurar Parámetros</h2>
 
-  <label for="tasaInteres">Tasa de interés:</label>
-  <input type="number" id="tasaInteres" min="10" max="20" value="15">
-  <span>%</span>
+    <label for="tasaInteres">Tasa de interés:</label>
+    <input type="number" id="tasaInteres" min="10" max="20" value="15">
+    <span>%</span>
 
-  <br><br>
-  <button type="button" onclick="guardarTasa()">Guardar tasa</button>
-  <p id="mensajeTasa"></p>
-</section>
+    <br><br>
+    <button type="button" onclick="guardarTasa()">Guardar tasa</button>
+    <p id="mensajeTasa"></p>
+  </section>
 
-<section id="clientes" class="">
-  <h2>Registro de Clientes</h2>
+  <section id="clientes" class="">
+    <h2>Registro de Clientes</h2>
 
-  <h3>Datos Personales:</h3>
-  <input type="text" id="cedula" placeholder="Cédula">
-  <input type="text" id="nombre" placeholder="Nombre">
-  <input type="text" id="apellido" placeholder="Apellido"><br>
-  <h3>Datos Financieros:</h3>
-  <input type="number" id="ingresos" placeholder="Ingresos mensuales">
-  <input type="number" id="egresos" placeholder="Egresos mensuales">
+    <h3>Datos Personales:</h3>
+    <input type="text" id="cedula" placeholder="Cédula">
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="apellido" placeholder="Apellido"><br>
+    <h3>Datos Financieros:</h3>
+    <input type="number" id="ingresos" placeholder="Ingresos mensuales">
+    <input type="number" id="egresos" placeholder="Egresos mensuales">
 
-  <br>
+    <br>
 
-  <button type="button" onclick="guardarCliente()">Guardar cliente</button>
-  <button type="button" onclick="limpiar()">Limpiar</button>
+    <button type="button" onclick="guardarCliente()">Guardar cliente</button>
+    <button type="button" onclick="limpiar()">Limpiar</button>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Cédula</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Ingresos</th>
-        <th>Egresos</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody id="tablaClientes">
-    
-    </tbody>
-  </table>
-</section>
+    <table>
+      <thead>
+        <tr>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Ingresos</th>
+          <th>Egresos</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaClientes">
+      
+      </tbody>
+    </table>
+  </section>
 
-<section id="credito" class="">
-  <h2>Solicitar Crédito</h2>
+  <section id="credito" class="">
+    <h2>Solicitar Crédito</h2>
 
-  Cédula: <input type="text" id="buscarCedulaCredito">
-  <button onclick="buscarClienteCredito()">Buscar cliente</button>
+    Cédula: <input type="text" id="buscarCedulaCredito">
+    <button onclick="buscarClienteCredito()">Buscar cliente</button>
 
-  <div id="datosClienteCredito" class="card"></div>
+    <div id="datosClienteCredito" class="card"></div>
 
-  Monto Credito:<input type="number" id="montoCredito" > 
-  Plazo (años):<input type="number" id="plazoCredito" > 
+    Monto Credito:<input type="number" id="montoCredito" > 
+    Plazo (años):<input type="number" id="plazoCredito" > 
 
-  <br>
+    <br>
 
-  <button onclick="calcularCredito()">Calcular crédito</button>
+    <button onclick="calcularCredito()">Calcular crédito</button>
 
-  <div id="resultadoCredito"></div>
+    <div id="resultadoCredito"></div>
 
-  <button id="btnSolicitarCredito" disabled>
-    Solicitar crédito
-  </button>
-</section>
+    <button id="btnAsignarCredito" disabled onclick="asignarCredito()">
+      Asignar crédito
+    </button>
+  </section>
+
+  <section id="listaCreditos" class="">
+    <h2>Créditos Registrados</h2>
+
+    <input type="text" id="buscarCedulaListado" placeholder="Buscar por cédula">
+    <button onclick="buscarCreditosCliente()">Buscar</button>
+    <button onclick="pintarCreditos(creditos)">Ver todos</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Monto</th>
+          <th>Tasa</th>
+          <th>Plazo</th>
+          <th>Cuota</th>
+        </tr>
+      </thead>
+      <tbody id="tablaCreditos">
+      </tbody>
+    </table>
+  </section>
 
   <script src="funciones.js"></script>
   <script src="utilitarios.js"></script>
